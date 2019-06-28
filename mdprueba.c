@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#define N
-#define L
+
 
 
 float setbox(float l, int n, float *posicion);
@@ -11,12 +10,12 @@ float aleatorio(void);
 float gaussiana(float mu, float sigma);
 float velocidad(float *v, int n, float T);
 int fuerzas(int n, float l, float *posicion, float *fuerza, float rc, float *fuerza_vieja);
-int siguiente_paso(int n, float h, float *fuerza, float *velocidad, float rij_2, float dr);
+int siguiente_paso(int n, float h, float *fuerza, float *velocidad, float rij_2, float *dr, float *potencial);
 int cc(int n, float l, float *posicion);
 float velocidad_cuadrada(float *velocidad, int i);
 float distancia_cuadrada(float *posicion, int i, int j, float *dr);
 float energia_cinetica(int n, float *velocidad);
-float potencial(int n, float l, float *posicion, float *dr);
+//float potenciall(int n, float l, float *posicion, float *dr);
 float coeficiente_verlet(float l, int n, float *posicion);
 float lennardjones(float r,float *potencial);
 float fuerza_ln(float *fuerza, float *potencial, float rij_2, float *dr,int i, int j);
@@ -33,14 +32,15 @@ int main(int argc, char* argv[])
   float h;
   float *posicion, *fuerza, rc, *fuerza_vieja;
  
+h=0;
+rc=0;
+T=0.728;
+n=8; 
   v=(float*)malloc(3*n*sizeof(float)); 
   fuerza=(float*)malloc(n*sizeof(float));
   fuerza_vieja=(float*)malloc(n*sizeof(float));
   posicion=(float*)malloc(n*sizeof(float));
- 
-h=0;
-rc=0;
-  
+  //potencial=(float*)malloc(sizeof(float));
 
   if (argc==3)
    {
@@ -247,10 +247,11 @@ return 0;
 
 }
 
-int siguiente_paso(int n, float h, float *fuerza, float *v, float rij_2, float dr)
+int siguiente_paso(int n, float h, float *fuerza, float *v, float rij_2, float *dr, float *potencial)
 
 {  
     int i,j;
+  //  float *potencial;
     
     for(i=0; i<3*n; i++)
 
